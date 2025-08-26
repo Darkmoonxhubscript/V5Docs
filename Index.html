@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DarkLib V5 Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3a, #2d1b69, #4c1d95);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(147, 51, 234, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(2n) {
+            background: rgba(168, 85, 247, 0.4);
+            animation-duration: 8s;
+            animation-delay: -2s;
+        }
+
+        .particle:nth-child(3n) {
+            background: rgba(196, 181, 253, 0.3);
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-100vh) rotate(180deg);
+            }
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(147, 51, 234, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: translateX(-50%) scale(1);
+                opacity: 0.3;
+            }
+            50% {
+                transform: translateX(-50%) scale(1.2);
+                opacity: 0.6;
+            }
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #9333ea, #c084fc, #e879f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(147, 51, 234, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #c4b5fd;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .nav-container {
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-section {
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 51, 234, 0.15);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: rgba(147, 51, 234, 0.3);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #c084fc;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(147, 51, 234, 0.3);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(45deg, #9333ea, #c084fc);
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #a855f7;
+            margin: 30px 0 20px 0;
+        }
+
+        h4 {
+            font-size: 1.3rem;
+            color: #8b5cf6;
+            margin: 25px 0 15px 0;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #9333ea, #c084fc, #e879f9);
+            border-radius: 10px 10px 0 0;
+        }
+
+        code {
+            color: #c4b5fd;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        pre {
+            color: #e5e7eb;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .comment {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .string {
+            color: #10b981;
+        }
+
+        .keyword {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .function {
+            color: #3b82f6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(147, 51, 234, 0.3);
+            color: #e5e7eb;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+        }
+
+        tr:nth-child(even) {
+            background: rgba(147, 51, 234, 0.05);
+        }
+
+        .toc {
+            list-style: none;
+            padding: 0;
+        }
+
+        .toc li {
+            margin: 8px 0;
+        }
+
+        .toc a {
+            color: #c084fc;
+            text-decoration: none;
+            padding: 8px 15px;
+            display: block;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .toc a:hover {
+            background: rgba(147, 51, 234, 0.2);
+            color: #e879f9;
+            transform: translateX(10px);
+        }
+
+        .highlight-box {
+            background: rgba(147, 51, 234, 0.1);
+            border-left: 4px solid #9333ea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .scrollbar-custom {
+            scrollbar-width: thin;
+            scrollbar-color: #9333ea rgba(0, 0, 0, 0.3);
+        }
+
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: #9333ea;
+            border-radius: 4px;
+        }
+
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: #c084fc;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #9ca3af;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .content-section {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body class="scrollbar-custom">
+    <div class="floating-particles">
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: -1s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: -2s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: -3s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: -4s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: -5s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: -6s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: -7s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: -8s;"></div>
+        <div class="particle" style="left: 15%; animation-delay: -9s;"></div>
+        <div class="particle" style="left: 25%; animation-delay: -10s;"></div>
+        <div class="particle" style="left: 35%; animation-delay: -11s;"></div>
+        <div class="particle" style="left: 45%; animation-delay: -12s;"></div>
+        <div class="particle" style="left: 55%; animation-delay: -13s;"></div>
+        <div class="particle" style="left: 65%; animation-delay: -14s;"></div>
+        <div class="particle" style="left: 75%; animation-delay: -15s;"></div>
+        <div class="particle" style="left: 85%; animation-delay: -16s;"></div>
+        <div class="particle" style="left: 95%; animation-delay: -17s;"></div>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>DarkLib V5 Documentation</h1>
+            <p class="subtitle">A comprehensive and elegant Roblox UI library designed for creating sophisticated user interfaces</p>
+        </div>
+
+        <div class="nav-container">
+            <h2>Table of Contents</h2>
+            <ul class="toc">
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#window-creation">Window Creation</a></li>
+                <li><a href="#notification-system">Notification System</a></li>
+                <li><a href="#user-interface-components">User Interface Components</a>
+                    <ul class="toc" style="margin-left: 20px;">
+                        <li><a href="#tab-management">Tab Management</a></li>
+                        <li><a href="#content-organization">Content Organization</a></li>
+                        <li><a href="#text-components">Text Components</a></li>
+                        <li><a href="#interactive-elements">Interactive Elements</a></li>
+                    </ul>
+                </li>
+                <li><a href="#advanced-features">Advanced Features</a></li>
+                <li><a href="#complete-api-reference">Complete API Reference</a></li>
+                <li><a href="#best-practices">Best Practices</a></li>
+            </ul>
+        </div>
+
+        <div class="content-section" id="getting-started">
+            <h2>Getting Started</h2>
+            <p>Initialize DarkLib V5 by loading the library through the following loadstring:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> DarkLib = <span class="function">loadstring</span>(<span class="function">game:HttpGet</span>(<span class="string">"https://raw.githubusercontent.com/Darkmoonxhubscript/DarkLibV5/refs/heads/main/source.lua"</span>, <span class="keyword">true</span>))()</code></pre>
+            </div>
+        </div>
+
+        <div class="content-section" id="window-creation">
+            <h2>Window Creation</h2>
+            
+            <h3>Complete Window Setup</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> Window = DarkLib:<span class="function">CreateWindow</span>({
+    Name = <span class="string">"Your Hub Name "</span>,                    <span class="comment">-- Main title displayed in the window header</span>
+    Subtitle = <span class="string">"Your subtitle here"</span>,            <span class="comment">-- Secondary text shown below the main title</span>
+    LogoID = <span class="string">"10734897102"</span>,                    <span class="comment">-- Roblox asset ID for the logo image</span>
+    Size = <span class="function">UDim2.new</span>(0.95, 0, 0.8, 0),        <span class="comment">-- Window dimensions (width, height as percentages)</span>
+    LoadingEnabled = <span class="keyword">true</span>,                      <span class="comment">-- Whether to show loading screen on startup</span>
+    LoadingTitle = <span class="string">"DarkMoon X"</span>,               <span class="comment">-- Text displayed during loading process</span>
+    LoadingSubtitle = <span class="string">"Loading..."</span>,            <span class="comment">-- Additional loading message</span>
+    
+    ConfigSettings = {
+        RootFolder = <span class="keyword">nil</span>,                       <span class="comment">-- Custom root directory (nil for default)</span>
+        ConfigFolder = <span class="string">"ScriptFolderName"</span>       <span class="comment">-- Folder name for storing configurations</span>
+    },
+    
+    KeySystem = <span class="keyword">false</span>,                          <span class="comment">-- Enable/disable authentication system</span>
+    KeySettings = {
+        Title = <span class="string">"Hub Name"</span>,                     <span class="comment">-- Key system window title</span>
+        Subtitle = <span class="string">"Key System"</span>,               <span class="comment">-- Key system window subtitle</span>
+        Note = <span class="string">"Enter the Key Obtained for the Hub Name"</span>,  <span class="comment">-- Instructions for users</span>
+        SaveInRoot = <span class="keyword">false</span>,                     <span class="comment">-- Save key in root folder instead of workspace</span>
+        SaveKey = <span class="keyword">true</span>,                        <span class="comment">-- Remember the key for future sessions</span>
+        Key = {<span class="string">"YourKey"</span>},                     <span class="comment">-- Array of valid authentication keys</span>
+        SecondAction = {
+            Enabled = <span class="keyword">false</span>,                    <span class="comment">-- Enable secondary action button</span>
+            Type = <span class="string">"Discord"</span>,                   <span class="comment">-- Action type: "Discord", "Website", etc.</span>
+            Parameter = <span class="string">"YourDiscordInvite"</span>     <span class="comment">-- Discord invite code or website URL</span>
+        }
+    }
+})</code></pre>
+            </div>
+
+            <h3>Window Configuration Parameters</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Data Type</th>
+                        <th>Default Value</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Name</code></td>
+                        <td>string</td>
+                        <td>Required</td>
+                        <td>Primary window title shown in the header bar</td>
+                    </tr>
+                    <tr>
+                        <td><code>Subtitle</code></td>
+                        <td>string</td>
+                        <td>""</td>
+                        <td>Secondary descriptive text beneath the title</td>
+                    </tr>
+                    <tr>
+                        <td><code>LogoID</code></td>
+                        <td>string</td>
+                        <td>""</td>
+                        <td>Roblox asset ID for custom logo display</td>
+                    </tr>
+                    <tr>
+                        <td><code>Size</code></td>
+                        <td>UDim2</td>
+                        <td>UDim2.new(0.6, 0, 0.7, 0)</td>
+                        <td>Window dimensions as screen percentage</td>
+                    </tr>
+                    <tr>
+                        <td><code>LoadingEnabled</code></td>
+                        <td>boolean</td>
+                        <td>false</td>
+                        <td>Controls visibility of loading screen</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section" id="notification-system">
+            <h2>Notification System</h2>
+            
+            <p>Create informative notifications for user feedback:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> Notify = <span class="function">NewNotify</span>({
+    Title = <span class="string">"Success!"</span>,                        <span class="comment">-- Bold notification header text</span>
+    Description = <span class="string">"Operation completed successfully."</span>,  <span class="comment">-- Detailed message content</span>
+    Time = 5                                   <span class="comment">-- Display duration in seconds</span>
+})</code></pre>
+            </div>
+
+            <h3>Notification Parameters</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Data Type</th>
+                        <th>Range</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Title</code></td>
+                        <td>string</td>
+                        <td>1-50 chars</td>
+                        <td>Main notification header</td>
+                    </tr>
+                    <tr>
+                        <td><code>Description</code></td>
+                        <td>string</td>
+                        <td>1-200 chars</td>
+                        <td>Detailed message body</td>
+                    </tr>
+                    <tr>
+                        <td><code>Time</code></td>
+                        <td>number</td>
+                        <td>1-30 seconds</td>
+                        <td>Auto-dismiss timer duration</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section" id="user-interface-components">
+            <h2>User Interface Components</h2>
+
+            <h3 id="tab-management">Tab Management</h3>
+            
+            <p>Create organized navigation tabs for your interface:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> MainTab = Window:<span class="function">CreateTab</span>({
+    Name = <span class="string">"Main"</span>,                             <span class="comment">-- Tab display name in navigation</span>
+    Icon = <span class="string">"home"</span>,                            <span class="comment">-- Icon identifier (Material icons or asset ID)</span>
+    ImageSource = <span class="string">"Material"</span>,                  <span class="comment">-- Icon source: "Material" for built-in, "Custom" for asset ID</span>
+    ShowTitle = <span class="keyword">true</span>                          <span class="comment">-- Display tab name alongside icon</span>
+})</code></pre>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Tab Configuration Options</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Data Type</th>
+                            <th>Options</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>Name</code></td>
+                            <td>string</td>
+                            <td>Any text</td>
+                            <td>Displayed tab label</td>
+                        </tr>
+                        <tr>
+                            <td><code>Icon</code></td>
+                            <td>string</td>
+                            <td>Material names or asset ID</td>
+                            <td>Visual tab identifier</td>
+                        </tr>
+                        <tr>
+                            <td><code>ImageSource</code></td>
+                            <td>string</td>
+                            <td>"Material", "Custom"</td>
+                            <td>Icon rendering method</td>
+                        </tr>
+                        <tr>
+                            <td><code>ShowTitle</code></td>
+                            <td>boolean</td>
+                            <td>true, false</td>
+                            <td>Text visibility control</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Material Icon Examples:</strong> "home", "settings", "user", "shield", "star", "tools", "info", "help"</p>
+            </div>
+
+            <h3 id="content-organization">Content Organization</h3>
+            
+            <h4>Section Dividers</h4>
+            
+            <p>Create visual separators within tabs:</p>
+            
+            <div class="code-block">
+                <pre><code>MainTab:<span class="function">CreateSection</span>(<span class="string">"Player Options"</span>)        <span class="comment">-- Creates a labeled section divider</span></code></pre>
+            </div>
+
+            <h3 id="text-components">Text Components</h3>
+
+            <h4>Status Labels</h4>
+            
+            <p>Display informational text with different styling:</p>
+            
+            <div class="code-block">
+                <pre><code>MainTab:<span class="function">CreateLabel</span>({
+    Text = <span class="string">"Welcome to DarkLib V5!"</span>,           <span class="comment">-- Content to display</span>
+    Style = 1                                  <span class="comment">-- Visual style variant</span>
+})</code></pre>
+            </div>
+
+            <div class="highlight-box">
+                <p><strong>Style Options:</strong></p>
+                <ul>
+                    <li><code>1</code> - Standard message (neutral blue)</li>
+                    <li><code>2</code> - Success message (green accent)</li>
+                    <li><code>3</code> - Warning/error message (red accent)</li>
+                </ul>
+            </div>
+
+            <h4>Rich Text Paragraphs</h4>
+            
+            <p>Create detailed text blocks with titles:</p>
+            
+            <div class="code-block">
+                <pre><code>MainTab:<span class="function">CreateParagraph</span>({
+    Title = <span class="string">"About This Script"</span>,               <span class="comment">-- Bold header text</span>
+    Text = <span class="string">"This is a comprehensive script hub with various features and tools for enhancing your gameplay experience."</span>  <span class="comment">-- Main content body</span>
+})</code></pre>
+            </div>
+
+            <h3 id="interactive-elements">Interactive Elements</h3>
+
+            <h4>Action Buttons</h4>
+            
+            <p>Create clickable elements that execute functions:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> ExampleButton = MainTab:<span class="function">CreateButton</span>({
+    Name = <span class="string">"Execute Function"</span>,                 <span class="comment">-- Button label text</span>
+    Description = <span class="string">"Runs the main function"</span>,   <span class="comment">-- Optional tooltip description</span>
+    Callback = <span class="keyword">function</span>()
+        <span class="comment">-- Function executed when button is clicked</span>
+        <span class="function">print</span>(<span class="string">"Button clicked!"</span>)
+        <span class="comment">-- Add your custom logic here</span>
+    <span class="keyword">end</span>
+})</code></pre>
+            </div>
+
+            <h4>Toggle Switches</h4>
+            
+            <p>Binary on/off controls with state persistence:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> ExampleToggle = MainTab:<span class="function">CreateToggle</span>({
+    Name = <span class="string">"Auto Farm"</span>,                        <span class="comment">-- Toggle display name</span>
+    Description = <span class="string">"Automatically farms resources"</span>,  <span class="comment">-- Feature explanation</span>
+    CurrentValue = <span class="keyword">false</span>,                      <span class="comment">-- Initial state (true = on, false = off)</span>
+    Callback = <span class="keyword">function</span>(Value)
+        <span class="comment">-- Function called when toggle state changes</span>
+        <span class="function">print</span>(<span class="string">"Toggle state:"</span>, Value)          <span class="comment">-- Value is true when on, false when off</span>
+        <span class="keyword">if</span> Value <span class="keyword">then</span>
+            <span class="comment">-- Code to execute when toggled ON</span>
+        <span class="keyword">else</span>
+            <span class="comment">-- Code to execute when toggled OFF</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"AutoFarmFlag"</span>)                            <span class="comment">-- Unique identifier for config saving</span></code></pre>
+            </div>
+
+            <h4>Text Input Fields</h4>
+            
+            <p>User text input with validation options:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> TextInput = MainTab:<span class="function">CreateInput</span>({
+    Name = <span class="string">"Player Name"</span>,                      <span class="comment">-- Input field label</span>
+    Description = <span class="string">"Enter target player name"</span>, <span class="comment">-- Purpose explanation</span>
+    PlaceholderText = <span class="string">"Username..."</span>,          <span class="comment">-- Hint text shown when empty</span>
+    CurrentValue = <span class="string">""</span>,                        <span class="comment">-- Pre-filled default value</span>
+    Numeric = <span class="keyword">false</span>,                          <span class="comment">-- true = numbers only, false = any text</span>
+    MaxCharacters = 20,                       <span class="comment">-- Maximum input length limit</span>
+    Enter = <span class="keyword">true</span>,                            <span class="comment">-- true = require Enter key, false = instant</span>
+    Callback = <span class="keyword">function</span>(Text)
+        <span class="comment">-- Function called when input is submitted</span>
+        <span class="function">print</span>(<span class="string">"Input received:"</span>, Text)
+        <span class="comment">-- Validate and process the input</span>
+        <span class="keyword">if</span> Text ~= <span class="string">""</span> <span class="keyword">then</span>
+            <span class="comment">-- Handle non-empty input</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"PlayerNameFlag"</span>)                         <span class="comment">-- Configuration save identifier</span></code></pre>
+            </div>
+<h4>Numeric Sliders</h4>
+            
+            <p>Adjustable value controls with visual feedback:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> SpeedSlider = MainTab:<span class="function">CreateSlider</span>({
+    Name = <span class="string">"Walk Speed"</span>,                       <span class="comment">-- Slider label</span>
+    Range = {16, 100},                        <span class="comment">-- Minimum and maximum values</span>
+    Increment = 1,                            <span class="comment">-- Step size for value changes</span>
+    CurrentValue = 16,                        <span class="comment">-- Initial slider position</span>
+    Callback = <span class="keyword">function</span>(Value)
+        <span class="comment">-- Function called when slider value changes</span>
+        <span class="function">print</span>(<span class="string">"New speed value:"</span>, Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    <span class="keyword">end</span>
+}, <span class="string">"WalkSpeedFlag"</span>)                          <span class="comment">-- Configuration identifier</span></code></pre>
+            </div>
+
+            <h4>Selection Dropdowns</h4>
+            
+            <p>Multi-option selection menus:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> WeaponDropdown = MainTab:<span class="function">CreateDropdown</span>({
+    Name = <span class="string">"Select Weapon"</span>,                    <span class="comment">-- Dropdown label</span>
+    Description = <span class="string">"Choose your preferred weapon"</span>,  <span class="comment">-- Usage explanation</span>
+    Options = {<span class="string">"Sword"</span>, <span class="string">"Bow"</span>, <span class="string">"Staff"</span>, <span class="string">"Dagger"</span>},  <span class="comment">-- Available choices</span>
+    CurrentOption = {<span class="string">"Sword"</span>},                 <span class="comment">-- Default selected option(s)</span>
+    MultipleOptions = <span class="keyword">false</span>,                   <span class="comment">-- true = multi-select, false = single select</span>
+    Callback = <span class="keyword">function</span>(Option)
+        <span class="comment">-- Function called when selection changes</span>
+        <span class="function">print</span>(<span class="string">"Selected weapon:"</span>, Option)
+        <span class="keyword">if</span> MultipleOptions <span class="keyword">then</span>
+            <span class="comment">-- Option is a table when multiple selection is enabled</span>
+            <span class="keyword">for</span> _, weapon <span class="keyword">in</span> <span class="function">pairs</span>(Option) <span class="keyword">do</span>
+                <span class="function">print</span>(<span class="string">"Selected:"</span>, weapon)
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            <span class="comment">-- Option is a string when single selection</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"WeaponFlag"</span>)                             <span class="comment">-- Configuration save key</span></code></pre>
+            </div>
+        </div>
+
+        <div class="content-section" id="advanced-features">
+            <h2>Advanced Features</h2>
+
+            <h3>Configuration Management</h3>
+            
+            <p>Automatically handle user settings with built-in configuration system:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> SettingsTab = Window:<span class="function">CreateTab</span>({
+    Name = <span class="string">"Settings"</span>,                         <span class="comment">-- Settings tab name</span>
+    Icon = <span class="string">"settings"</span>,                        <span class="comment">-- Gear icon</span>
+    ImageSource = <span class="string">"Material"</span>,                 <span class="comment">-- Use built-in Material icons</span>
+    ShowTitle = <span class="keyword">true</span>                          <span class="comment">-- Display "Settings" text</span>
+})
+
+<span class="comment">-- Adds save/load configuration controls</span>
+SettingsTab:<span class="function">BuildConfigSection</span>()
+
+<span class="comment">-- Adds theme customization options</span>
+SettingsTab:<span class="function">BuildThemeSection</span>()</code></pre>
+            </div>
+
+            <h3>Information Hub</h3>
+            
+            <p>Create a welcoming home page with essential information:</p>
+            
+            <div class="code-block">
+                <pre><code>Window:<span class="function">CreateHomeTab</span>({
+    SupportedExecutors = {                     <span class="comment">-- List of compatible script executors</span>
+        <span class="string">"Synapse X"</span>, 
+        <span class="string">"Script-Ware"</span>, 
+        <span class="string">"Krnl"</span>, 
+        <span class="string">"Delta"</span>
+    },
+    DiscordInvite = <span class="string">"yourinvitecode"</span>,         <span class="comment">-- Discord server invite (without discord.gg/)</span>
+    Icon = 1                                  <span class="comment">-- Home tab icon style</span>
+})</code></pre>
+            </div>
+        </div>
+
+        <div class="content-section" id="complete-api-reference">
+            <h2>Complete API Reference</h2>
+
+            <h3>Core Library Functions</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function Signature</th>
+                        <th>Return Type</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DarkLib:CreateWindow(config)</code></td>
+                        <td>WindowObject</td>
+                        <td>Initialize main interface window</td>
+                    </tr>
+                    <tr>
+                        <td><code>NewNotify(config)</code></td>
+                        <td>NotificationObject</td>
+                        <td>Display temporary user notification</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Window Object Methods</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Window:CreateTab(config)</code></td>
+                        <td>Table</td>
+                        <td>TabObject</td>
+                        <td>Add new navigation tab</td>
+                    </tr>
+                    <tr>
+                        <td><code>Window:CreateHomeTab(config)</code></td>
+                        <td>Table</td>
+                        <td>TabObject</td>
+                        <td>Generate information homepage</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Tab Object Methods</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Tab:CreateSection(name)</code></td>
+                        <td>String</td>
+                        <td>nil</td>
+                        <td>Add visual section divider</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateButton(config)</code></td>
+                        <td>Table</td>
+                        <td>ButtonObject</td>
+                        <td>Create interactive button</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateToggle(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>ToggleObject</td>
+                        <td>Add binary switch control</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateInput(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>InputObject</td>
+                        <td>Insert text input field</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateSlider(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>SliderObject</td>
+                        <td>Add numeric value slider</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateDropdown(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>DropdownObject</td>
+                        <td>Create selection menu</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateLabel(config)</code></td>
+                        <td>Table</td>
+                        <td>LabelObject</td>
+                        <td>Display static text</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateParagraph(config)</code></td>
+                        <td>Table</td>
+                        <td>ParagraphObject</td>
+                        <td>Show formatted text block</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:BuildConfigSection()</code></td>
+                        <td>None</td>
+                        <td>nil</td>
+                        <td>Add configuration controls</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:BuildThemeSection()</code></td>
+                        <td>None</td>
+                        <td>nil</td>
+                        <td>Add theme customization</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section" id="best-practices">
+            <h2>Best Practices</h2>
+
+            <h3>Code Organization</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Modular Structure:</strong> Organize related functionality into separate tabs and use descriptive section names to create logical groupings.</p>
+                
+                <p><strong>Consistent Naming:</strong> Use clear, descriptive names for all UI elements. Avoid abbreviations that might confuse users.</p>
+                
+                <p><strong>Flag Management:</strong> Create a centralized naming convention for configuration flags to prevent conflicts and ensure consistency.</p>
+            </div>
+
+            <h3>User Experience Design</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Progressive Disclosure:</strong> Present the most important features prominently while keeping advanced options in clearly marked sections.</p>
+                
+                <p><strong>Feedback Systems:</strong> Always provide immediate visual or textual feedback when users interact with controls.</p>
+                
+                <p><strong>Default Values:</strong> Set sensible default values that work for most users while still allowing customization.</p>
+            </div>
+
+            <h3>Performance Considerations</h3>
+            
+            <div class="warning-box">
+                <p><strong>Event Handling:</strong> Use debouncing for frequently triggered events like slider changes to prevent performance issues.</p>
+                
+                <p><strong>Resource Management:</strong> Store references to frequently accessed UI elements to avoid repeated object lookups.</p>
+                
+                <p><strong>Memory Optimization:</strong> Clean up unused callbacks and references when recreating UI elements.</p>
+            </div>
+
+            <h3>Error Prevention</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Input Validation:</strong> Implement proper validation for all user inputs, especially numeric fields and text inputs.</p>
+                
+                <p><strong>Range Checking:</strong> Ensure slider values and numeric inputs stay within acceptable ranges.</p>
+                
+                <p><strong>Null Checking:</strong> Always verify that required parameters are provided before executing callback functions.</p>
+            </div>
+
+            <h3>Configuration Best Practices</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Meaningful Flags:</strong> Use descriptive, unique flag names that clearly indicate their purpose.</p>
+                
+                <p><strong>Default States:</strong> Set appropriate default values for toggles and inputs based on the most common use case.</p>
+                
+                <p><strong>Persistence Strategy:</strong> Decide which settings should persist between sessions and which should reset.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Advanced Implementation Examples</h2>
+
+            <h3>Dynamic Content Updates</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="comment">-- Create elements that can be updated dynamically</span>
+<span class="keyword">local</span> statusLabel = MainTab:<span class="function">CreateLabel</span>({
+    Text = <span class="string">"Status: Idle"</span>,
+    Style = 1
+})
+
+<span class="comment">-- Function to update the label</span>
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function">updateStatus</span>(newStatus)
+    statusLabel:<span class="function">Set</span>(<span class="string">"Status: "</span> .. newStatus)
+<span class="keyword">end</span></code></pre>
+            </div>
+
+            <h3>Conditional UI Logic</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> advancedMode = <span class="keyword">false</span>
+
+<span class="keyword">local</span> advancedToggle = SettingsTab:<span class="function">CreateToggle</span>({
+    Name = <span class="string">"Advanced Mode"</span>,
+    Description = <span class="string">"Show advanced options"</span>,
+    CurrentValue = <span class="keyword">false</span>,
+    Callback = <span class="keyword">function</span>(Value)
+        advancedMode = Value
+        <span class="comment">-- Show/hide advanced controls based on toggle state</span>
+        <span class="keyword">if</span> Value <span class="keyword">then</span>
+            <span class="comment">-- Create advanced controls</span>
+        <span class="keyword">else</span>
+            <span class="comment">-- Hide advanced controls</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"AdvancedModeFlag"</span>)</code></pre>
+            </div>
+
+            <h3>Complex Integration Example</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="comment">-- Complete example integrating multiple components</span>
+<span class="keyword">local</span> GameplayTab = Window:<span class="function">CreateTab</span>({
+    Name = <span class="string">"Gameplay"</span>,
+    Icon = <span class="string">"gamepad"</span>,
+    ImageSource = <span class="string">"Material"</span>,
+    ShowTitle = <span class="keyword">true</span>
+})
+
+<span class="comment">-- Player modifications section</span>
+GameplayTab:<span class="function">CreateSection</span>(<span class="string">"Player Modifications"</span>)
+
+<span class="comment">-- Speed control with validation</span>
+<span class="keyword">local</span> speedEnabled = <span class="keyword">false</span>
+<span class="keyword">local</span> currentSpeed = 16
+
+<span class="keyword">local</span> speedToggle = GameplayTab:<span class="function">CreateToggle</span>({
+    Name = <span class="string">"Custom Speed"</span>,
+    Description = <span class="string">"Enable custom walk speed"</span>,
+    CurrentValue = <span class="keyword">false</span>,
+    Callback = <span class="keyword">function</span>(Value)
+        speedEnabled = Value
+        <span class="keyword">if</span> Value <span class="keyword">then</span>
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = currentSpeed
+        <span class="keyword">else</span>
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"SpeedToggle"</span>)
+
+<span class="keyword">local</span> speedSlider = GameplayTab:<span class="function">CreateSlider</span>({
+    Name = <span class="string">"Speed Value"</span>,
+    Range = {16, 500},
+    Increment = 1,
+    CurrentValue = 16,
+    Callback = <span class="keyword">function</span>(Value)
+        currentSpeed = Value
+        <span class="keyword">if</span> speedEnabled <span class="keyword">then</span>
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"SpeedValue"</span>)
+
+<span class="comment">-- Teleportation system</span>
+GameplayTab:<span class="function">CreateSection</span>(<span class="string">"Teleportation"</span>)
+
+<span class="keyword">local</span> savedPositions = {}
+
+<span class="keyword">local</span> positionInput = GameplayTab:<span class="function">CreateInput</span>({
+    Name = <span class="string">"Position Name"</span>,
+    Description = <span class="string">"Name for saved position"</span>,
+    PlaceholderText = <span class="string">"Enter position name..."</span>,
+    CurrentValue = <span class="string">""</span>,
+    Numeric = <span class="keyword">false</span>,
+    MaxCharacters = 30,
+    Enter = <span class="keyword">true</span>,
+    Callback = <span class="keyword">function</span>(Text)
+        <span class="keyword">if</span> Text ~= <span class="string">""</span> <span class="keyword">then</span>
+            <span class="keyword">local</span> player = game.Players.LocalPlayer
+            <span class="keyword">if</span> player.Character <span class="keyword">and</span> player.Character:FindFirstChild(<span class="string">"HumanoidRootPart"</span>) <span class="keyword">then</span>
+                savedPositions[Text] = player.Character.HumanoidRootPart.Position
+                <span class="function">print</span>(<span class="string">"Position saved:"</span>, Text)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"PositionName"</span>)</code></pre>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Developed by Darki & Luna Softwares team</p>
+        </div>
+
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3a, #2d1b69, #4c1d95);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .content-section {
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 51, 234, 0.15);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: rgba(147, 51, 234, 0.3);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #c084fc;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(147, 51, 234, 0.3);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(45deg, #9333ea, #c084fc);
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #a855f7;
+            margin: 30px 0 20px 0;
+        }
+
+        h4 {
+            font-size: 1.3rem;
+            color: #8b5cf6;
+            margin: 25px 0 15px 0;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #9333ea, #c084fc, #e879f9);
+            border-radius: 10px 10px 0 0;
+        }
+
+        code {
+            color: #c4b5fd;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        pre {
+            color: #e5e7eb;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .comment {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .string {
+            color: #10b981;
+        }
+
+        .keyword {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .function {
+            color: #3b82f6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(147, 51, 234, 0.3);
+            color: #e5e7eb;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+        }
+
+        tr:nth-child(even) {
+            background: rgba(147, 51, 234, 0.05);
+        }
+
+        .highlight-box {
+            background: rgba(147, 51, 234, 0.1);
+            border-left: 4px solid #9333ea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #9ca3af;
+            font-style: italic;
+        }
+        </style>
+<h4>Numeric Sliders</h4>
+            
+            <p>Adjustable value controls with visual feedback:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> SpeedSlider = MainTab:<span class="function">CreateSlider</span>({
+    Name = <span class="string">"Walk Speed"</span>,                       <span class="comment">-- Slider label</span>
+    Range = {16, 100},                        <span class="comment">-- Minimum and maximum values</span>
+    Increment = 1,                            <span class="comment">-- Step size for value changes</span>
+    CurrentValue = 16,                        <span class="comment">-- Initial slider position</span>
+    Callback = <span class="keyword">function</span>(Value)
+        <span class="comment">-- Function called when slider value changes</span>
+        <span class="function">print</span>(<span class="string">"New speed value:"</span>, Value)
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+    <span class="keyword">end</span>
+}, <span class="string">"WalkSpeedFlag"</span>)                          <span class="comment">-- Configuration identifier</span></code></pre>
+            </div>
+
+            <h4>Selection Dropdowns</h4>
+            
+            <p>Multi-option selection menus:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> WeaponDropdown = MainTab:<span class="function">CreateDropdown</span>({
+    Name = <span class="string">"Select Weapon"</span>,                    <span class="comment">-- Dropdown label</span>
+    Description = <span class="string">"Choose your preferred weapon"</span>,  <span class="comment">-- Usage explanation</span>
+    Options = {<span class="string">"Sword"</span>, <span class="string">"Bow"</span>, <span class="string">"Staff"</span>, <span class="string">"Dagger"</span>},  <span class="comment">-- Available choices</span>
+    CurrentOption = {<span class="string">"Sword"</span>},                 <span class="comment">-- Default selected option(s)</span>
+    MultipleOptions = <span class="keyword">false</span>,                   <span class="comment">-- true = multi-select, false = single select</span>
+    Callback = <span class="keyword">function</span>(Option)
+        <span class="comment">-- Function called when selection changes</span>
+        <span class="function">print</span>(<span class="string">"Selected weapon:"</span>, Option)
+        <span class="keyword">if</span> MultipleOptions <span class="keyword">then</span>
+            <span class="comment">-- Option is a table when multiple selection is enabled</span>
+            <span class="keyword">for</span> _, weapon <span class="keyword">in</span> <span class="function">pairs</span>(Option) <span class="keyword">do</span>
+                <span class="function">print</span>(<span class="string">"Selected:"</span>, weapon)
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            <span class="comment">-- Option is a string when single selection</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"WeaponFlag"</span>)                             <span class="comment">-- Configuration save key</span></code></pre>
+            </div>
+        </div>
+
+        <div class="content-section" id="advanced-features">
+            <h2>Advanced Features</h2>
+
+            <h3>Configuration Management</h3>
+            
+            <p>Automatically handle user settings with built-in configuration system:</p>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> SettingsTab = Window:<span class="function">CreateTab</span>({
+    Name = <span class="string">"Settings"</span>,                         <span class="comment">-- Settings tab name</span>
+    Icon = <span class="string">"settings"</span>,                        <span class="comment">-- Gear icon</span>
+    ImageSource = <span class="string">"Material"</span>,                 <span class="comment">-- Use built-in Material icons</span>
+    ShowTitle = <span class="keyword">true</span>                          <span class="comment">-- Display "Settings" text</span>
+})
+
+<span class="comment">-- Adds save/load configuration controls</span>
+SettingsTab:<span class="function">BuildConfigSection</span>()
+
+<span class="comment">-- Adds theme customization options</span>
+SettingsTab:<span class="function">BuildThemeSection</span>()</code></pre>
+            </div>
+
+            <h3>Information Hub</h3>
+            
+            <p>Create a welcoming home page with essential information:</p>
+            
+            <div class="code-block">
+                <pre><code>Window:<span class="function">CreateHomeTab</span>({
+    SupportedExecutors = {                     <span class="comment">-- List of compatible script executors</span>
+        <span class="string">"Synapse X"</span>, 
+        <span class="string">"Script-Ware"</span>, 
+        <span class="string">"Krnl"</span>, 
+        <span class="string">"Delta"</span>
+    },
+    DiscordInvite = <span class="string">"yourinvitecode"</span>,         <span class="comment">-- Discord server invite (without discord.gg/)</span>
+    Icon = 1                                  <span class="comment">-- Home tab icon style</span>
+})</code></pre>
+            </div>
+        </div>
+
+        <div class="content-section" id="complete-api-reference">
+            <h2>Complete API Reference</h2>
+
+            <h3>Core Library Functions</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Function Signature</th>
+                        <th>Return Type</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>DarkLib:CreateWindow(config)</code></td>
+                        <td>WindowObject</td>
+                        <td>Initialize main interface window</td>
+                    </tr>
+                    <tr>
+                        <td><code>NewNotify(config)</code></td>
+                        <td>NotificationObject</td>
+                        <td>Display temporary user notification</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Window Object Methods</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Window:CreateTab(config)</code></td>
+                        <td>Table</td>
+                        <td>TabObject</td>
+                        <td>Add new navigation tab</td>
+                    </tr>
+                    <tr>
+                        <td><code>Window:CreateHomeTab(config)</code></td>
+                        <td>Table</td>
+                        <td>TabObject</td>
+                        <td>Generate information homepage</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Tab Object Methods</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Method</th>
+                        <th>Parameters</th>
+                        <th>Return Type</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>Tab:CreateSection(name)</code></td>
+                        <td>String</td>
+                        <td>nil</td>
+                        <td>Add visual section divider</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateButton(config)</code></td>
+                        <td>Table</td>
+                        <td>ButtonObject</td>
+                        <td>Create interactive button</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateToggle(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>ToggleObject</td>
+                        <td>Add binary switch control</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateInput(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>InputObject</td>
+                        <td>Insert text input field</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateSlider(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>SliderObject</td>
+                        <td>Add numeric value slider</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateDropdown(config, flag)</code></td>
+                        <td>Table, String</td>
+                        <td>DropdownObject</td>
+                        <td>Create selection menu</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateLabel(config)</code></td>
+                        <td>Table</td>
+                        <td>LabelObject</td>
+                        <td>Display static text</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:CreateParagraph(config)</code></td>
+                        <td>Table</td>
+                        <td>ParagraphObject</td>
+                        <td>Show formatted text block</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:BuildConfigSection()</code></td>
+                        <td>None</td>
+                        <td>nil</td>
+                        <td>Add configuration controls</td>
+                    </tr>
+                    <tr>
+                        <td><code>Tab:BuildThemeSection()</code></td>
+                        <td>None</td>
+                        <td>nil</td>
+                        <td>Add theme customization</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="content-section" id="best-practices">
+            <h2>Best Practices</h2>
+
+            <h3>Code Organization</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Modular Structure:</strong> Organize related functionality into separate tabs and use descriptive section names to create logical groupings.</p>
+                
+                <p><strong>Consistent Naming:</strong> Use clear, descriptive names for all UI elements. Avoid abbreviations that might confuse users.</p>
+                
+                <p><strong>Flag Management:</strong> Create a centralized naming convention for configuration flags to prevent conflicts and ensure consistency.</p>
+            </div>
+
+            <h3>User Experience Design</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Progressive Disclosure:</strong> Present the most important features prominently while keeping advanced options in clearly marked sections.</p>
+                
+                <p><strong>Feedback Systems:</strong> Always provide immediate visual or textual feedback when users interact with controls.</p>
+                
+                <p><strong>Default Values:</strong> Set sensible default values that work for most users while still allowing customization.</p>
+            </div>
+
+            <h3>Performance Considerations</h3>
+            
+            <div class="warning-box">
+                <p><strong>Event Handling:</strong> Use debouncing for frequently triggered events like slider changes to prevent performance issues.</p>
+                
+                <p><strong>Resource Management:</strong> Store references to frequently accessed UI elements to avoid repeated object lookups.</p>
+                
+                <p><strong>Memory Optimization:</strong> Clean up unused callbacks and references when recreating UI elements.</p>
+            </div>
+
+            <h3>Error Prevention</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Input Validation:</strong> Implement proper validation for all user inputs, especially numeric fields and text inputs.</p>
+                
+                <p><strong>Range Checking:</strong> Ensure slider values and numeric inputs stay within acceptable ranges.</p>
+                
+                <p><strong>Null Checking:</strong> Always verify that required parameters are provided before executing callback functions.</p>
+            </div>
+
+            <h3>Configuration Best Practices</h3>
+            
+            <div class="highlight-box">
+                <p><strong>Meaningful Flags:</strong> Use descriptive, unique flag names that clearly indicate their purpose.</p>
+                
+                <p><strong>Default States:</strong> Set appropriate default values for toggles and inputs based on the most common use case.</p>
+                
+                <p><strong>Persistence Strategy:</strong> Decide which settings should persist between sessions and which should reset.</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Advanced Implementation Examples</h2>
+
+            <h3>Dynamic Content Updates</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="comment">-- Create elements that can be updated dynamically</span>
+<span class="keyword">local</span> statusLabel = MainTab:<span class="function">CreateLabel</span>({
+    Text = <span class="string">"Status: Idle"</span>,
+    Style = 1
+})
+
+<span class="comment">-- Function to update the label</span>
+<span class="keyword">local</span> <span class="keyword">function</span> <span class="function">updateStatus</span>(newStatus)
+    statusLabel:<span class="function">Set</span>(<span class="string">"Status: "</span> .. newStatus)
+<span class="keyword">end</span></code></pre>
+            </div>
+
+            <h3>Conditional UI Logic</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="keyword">local</span> advancedMode = <span class="keyword">false</span>
+
+<span class="keyword">local</span> advancedToggle = SettingsTab:<span class="function">CreateToggle</span>({
+    Name = <span class="string">"Advanced Mode"</span>,
+    Description = <span class="string">"Show advanced options"</span>,
+    CurrentValue = <span class="keyword">false</span>,
+    Callback = <span class="keyword">function</span>(Value)
+        advancedMode = Value
+        <span class="comment">-- Show/hide advanced controls based on toggle state</span>
+        <span class="keyword">if</span> Value <span class="keyword">then</span>
+            <span class="comment">-- Create advanced controls</span>
+        <span class="keyword">else</span>
+            <span class="comment">-- Hide advanced controls</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"AdvancedModeFlag"</span>)</code></pre>
+            </div>
+
+            <h3>Complex Integration Example</h3>
+            
+            <div class="code-block">
+                <pre><code><span class="comment">-- Complete example integrating multiple components</span>
+<span class="keyword">local</span> GameplayTab = Window:<span class="function">CreateTab</span>({
+    Name = <span class="string">"Gameplay"</span>,
+    Icon = <span class="string">"gamepad"</span>,
+    ImageSource = <span class="string">"Material"</span>,
+    ShowTitle = <span class="keyword">true</span>
+})
+
+<span class="comment">-- Player modifications section</span>
+GameplayTab:<span class="function">CreateSection</span>(<span class="string">"Player Modifications"</span>)
+
+<span class="comment">-- Speed control with validation</span>
+<span class="keyword">local</span> speedEnabled = <span class="keyword">false</span>
+<span class="keyword">local</span> currentSpeed = 16
+
+<span class="keyword">local</span> speedToggle = GameplayTab:<span class="function">CreateToggle</span>({
+    Name = <span class="string">"Custom Speed"</span>,
+    Description = <span class="string">"Enable custom walk speed"</span>,
+    CurrentValue = <span class="keyword">false</span>,
+    Callback = <span class="keyword">function</span>(Value)
+        speedEnabled = Value
+        <span class="keyword">if</span> Value <span class="keyword">then</span>
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = currentSpeed
+        <span class="keyword">else</span>
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"SpeedToggle"</span>)
+
+<span class="keyword">local</span> speedSlider = GameplayTab:<span class="function">CreateSlider</span>({
+    Name = <span class="string">"Speed Value"</span>,
+    Range = {16, 500},
+    Increment = 1,
+    CurrentValue = 16,
+    Callback = <span class="keyword">function</span>(Value)
+        currentSpeed = Value
+        <span class="keyword">if</span> speedEnabled <span class="keyword">then</span>
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"SpeedValue"</span>)
+
+<span class="comment">-- Teleportation system</span>
+GameplayTab:<span class="function">CreateSection</span>(<span class="string">"Teleportation"</span>)
+
+<span class="keyword">local</span> savedPositions = {}
+
+<span class="keyword">local</span> positionInput = GameplayTab:<span class="function">CreateInput</span>({
+    Name = <span class="string">"Position Name"</span>,
+    Description = <span class="string">"Name for saved position"</span>,
+    PlaceholderText = <span class="string">"Enter position name..."</span>,
+    CurrentValue = <span class="string">""</span>,
+    Numeric = <span class="keyword">false</span>,
+    MaxCharacters = 30,
+    Enter = <span class="keyword">true</span>,
+    Callback = <span class="keyword">function</span>(Text)
+        <span class="keyword">if</span> Text ~= <span class="string">""</span> <span class="keyword">then</span>
+            <span class="keyword">local</span> player = game.Players.LocalPlayer
+            <span class="keyword">if</span> player.Character <span class="keyword">and</span> player.Character:FindFirstChild(<span class="string">"HumanoidRootPart"</span>) <span class="keyword">then</span>
+                savedPositions[Text] = player.Character.HumanoidRootPart.Position
+                <span class="function">print</span>(<span class="string">"Position saved:"</span>, Text)
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+}, <span class="string">"PositionName"</span>)</code></pre>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Developed by Darki & Luna Softwares team</p>
+        </div>
+
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a3a, #2d1b69, #4c1d95);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            color: #e5e7eb;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .content-section {
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(147, 51, 234, 0.15);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .content-section:hover {
+            border-color: rgba(147, 51, 234, 0.3);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #c084fc;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(147, 51, 234, 0.3);
+            position: relative;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(45deg, #9333ea, #c084fc);
+        }
+
+        h3 {
+            font-size: 1.6rem;
+            color: #a855f7;
+            margin: 30px 0 20px 0;
+        }
+
+        h4 {
+            font-size: 1.3rem;
+            color: #8b5cf6;
+            margin: 25px 0 15px 0;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(147, 51, 234, 0.2);
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #9333ea, #c084fc, #e879f9);
+            border-radius: 10px 10px 0 0;
+        }
+
+        code {
+            color: #c4b5fd;
+            font-family: 'Fira Code', 'Courier New', monospace;
+            font-size: 0.95rem;
+        }
+
+        pre {
+            color: #e5e7eb;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .comment {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .string {
+            color: #10b981;
+        }
+
+        .keyword {
+            color: #f59e0b;
+            font-weight: 600;
+        }
+
+        .function {
+            color: #3b82f6;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: rgba(147, 51, 234, 0.3);
+            color: #e5e7eb;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid rgba(147, 51, 234, 0.1);
+        }
+
+        tr:nth-child(even) {
+            background: rgba(147, 51, 234, 0.05);
+        }
+
+        .highlight-box {
+            background: rgba(147, 51, 234, 0.1);
+            border-left: 4px solid #9333ea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .warning-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid #ef4444;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #9ca3af;
+            font-style: italic;
+        }
+        </style>
